@@ -12,8 +12,8 @@ Welcome to Tic-Tac-Toe! This is an implementation of the schoolyard game using o
 ## How to Play
 
 Select a cell by pressing a number from 1-9.
-Cells are represented left-to-right, top-to-bottom, so:
+Cells are represented left-to-right, bottom-to-top, so:
 
-- 1-3 is the top row,
+- 1-3 is the bottom row
 - 4-6 is the centre row
-- 7-9 is the bottom row.
+- 7-9 is the top row

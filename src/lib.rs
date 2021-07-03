@@ -36,32 +36,46 @@ enum EndState {
 /// There is a subtlety between these two fields.
 ///
 /// `cells` refers to player-settable cells. These are what the players
-/// actually sets for themselves.
+/// actually set for themselves.
 ///
 /// `set_cells` simply says **if** the cell has been set. It does not say **who** has set it.
-#[derive(Debug)]
 struct Board {
     player_cells: u16,
     active_cells: u16,
 }
 
+mod board_display_helpers {
+    pub(crate) fn draw_top_line() -> &'static str {
+        "-------------\n"
+    }
+
+    pub(crate) fn draw_cell_line(cell_triple: [&str; 3]) -> String {
+        format!(
+            "| {} | {} | {} |\n",
+            cell_triple[2], cell_triple[1], cell_triple[0]
+        )
+    }
+}
+
 impl Display for Board {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut output_string = String::new();
-        let mut counter = 0;
 
-        for i in (0..9).rev() {
-            output_string +=
-                if self.active_cells & (1 << i) != 0 && (self.player_cells & (1 << i)) == 0 {
-                    "O"
-                } else if self.active_cells & (1 << i) != 0 && self.player_cells & (1 << i) != 0 {
-                    "X"
-                } else {
-                    "E"
-                };
-            counter += 1;
-            if counter % 3 == 0 {
-                output_string += "\n";
+        for j in (0..7).rev() {
+            if j % 2 == 0 {
+                output_string += board_display_helpers::draw_top_line();
+            } else {
+                let mut cell_triple: [&str; 3] = [""; 3];
+                for i in (3 * (j / 2))..3 * (j / 2 + 1) {
+                    cell_triple[i % 3] = if self.check_player_has_set_cell(Player::O, i) {
+                        "O"
+                    } else if self.check_player_has_set_cell(Player::X, i) {
+                        "X"
+                    } else {
+                        "E"
+                    };
+                }
+                output_string += &board_display_helpers::draw_cell_line(cell_triple);
             }
         }
 
@@ -70,6 +84,15 @@ impl Display for Board {
 }
 
 impl Board {
+    fn check_player_has_set_cell(&self, player: Player, cell_idx: usize) -> bool {
+        let cell = 1 << cell_idx;
+        let is_cell_active = self.active_cells & cell != 0;
+        let player_set_cell = self.player_cells & cell == 0;
+
+        is_cell_active
+            && (player == Player::O && player_set_cell || player == Player::X && !player_set_cell)
+    }
+
     fn new() -> Board {
         Board {
             player_cells: 0,
@@ -121,34 +144,22 @@ impl Board {
             return;
         }
         println!("{}: Select a Cell", player);
-        let mut cell: Cell;
-        loop {
-            let mut player_input_stream = String::new();
-            println!("Enter a value between 1-9");
-            io::stdin().read_line(&mut player_input_stream).unwrap();
-            cell = match player_input_stream.trim() {
-                "1" => Cell::TopLeft,
-                "2" => Cell::TopCentre,
-                "3" => Cell::TopRight,
-                "4" => Cell::CentreLeft,
-                "5" => Cell::Centre,
-                "6" => Cell::CentreRight,
-                "7" => Cell::BottomLeft,
-                "8" => Cell::BottomCentre,
-                "9" => Cell::BottomRight,
-                _ => {
-                    println!("Invalid input.");
-                    continue;
-                }
-            };
-            if self.is_cell_set(cell) {
-                println!("Sorry, this cell has already been set!");
-                continue;
-            }
-            break;
-        }
+        let cell = self.handle_cell_input();
 
         self.set_cell(player, cell);
+    }
+
+    fn handle_cell_input(&mut self) -> Cell {
+        loop {
+            println!("Enter a value between 1-9");
+            let mut player_input_stream = String::new();
+            io::stdin().read_line(&mut player_input_stream).unwrap();
+            match Cell::try_from(player_input_stream.trim()) {
+                Some(c) if !self.is_cell_set(c) => return c,
+                Some(_) => println!("Sorry, this cell has already been set!"),
+                None => println!("Sorry, please enter a valid number."),
+            }
+        }
     }
 }
 

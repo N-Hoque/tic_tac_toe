@@ -17,6 +17,23 @@ pub(crate) enum Cell {
     BottomRight = 0b000000001,
 }
 
+impl Cell {
+    pub(crate) fn try_from(x: &str) -> Option<Cell> {
+        match x {
+            "1" => Some(Cell::BottomLeft),
+            "2" => Some(Cell::BottomCentre),
+            "3" => Some(Cell::BottomRight),
+            "4" => Some(Cell::CentreLeft),
+            "5" => Some(Cell::Centre),
+            "6" => Some(Cell::CentreRight),
+            "7" => Some(Cell::TopLeft),
+            "8" => Some(Cell::TopCentre),
+            "9" => Some(Cell::TopRight),
+            _ => None,
+        }
+    }
+}
+
 /// These patterns represent every possible win state.
 ///
 /// Rows, Columns and Diagonals are accounted for in this.

@@ -322,12 +322,6 @@ mod board_tests {
     use crate::{Board, Player};
 
     #[test]
-    fn new_board_has_empty_cells() {
-        let board = Board::new();
-        assert!(board.player_cells == 0 && board.active_cells == 0);
-    }
-
-    #[test]
     fn board_correctly_states_winner() {
         let mut board = Board::new();
         let winner = Player::O;
@@ -377,7 +371,7 @@ mod board_tests {
         board.set_cell(p1, Cell::Centre);
         board.set_cell(p2, Cell::TopLeft);
         board.set_cell(p1, Cell::BottomRight);
-        assert_eq!("OEE\nEXE\nEEX\n", &board.to_string());
+        assert_eq!("-------------\n| O | E | E |\n-------------\n| E | X | E |\n-------------\n| E | E | X |\n-------------\n", &board.to_string());
     }
 
     #[test]
@@ -394,7 +388,7 @@ mod board_tests {
         board.set_cell(p1, Cell::BottomCentre);
         board.set_cell(p2, Cell::CentreLeft);
         board.set_cell(p1, Cell::CentreRight);
-        assert_eq!("OOO\nOXX\nXXX\n", &board.to_string());
+        assert_eq!("-------------\n| O | O | O |\n-------------\n| O | X | X |\n-------------\n| X | X | X |\n-------------\n", &board.to_string());
     }
 
     #[test]
@@ -411,6 +405,6 @@ mod board_tests {
         board.set_cell(p1, Cell::BottomLeft);
         board.set_cell(p2, Cell::BottomCentre);
         board.set_cell(p1, Cell::BottomRight);
-        assert_eq!("OXO\nXOX\nOXO\n", &board.to_string());
+        assert_eq!("-------------\n| O | X | O |\n-------------\n| X | O | X |\n-------------\n| O | X | O |\n-------------\n", &board.to_string());
     }
 }
