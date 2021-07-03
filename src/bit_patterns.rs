@@ -2,36 +2,29 @@
 //! for Tic-Tac-Toe. This means patterns representing
 //! cells that have been set by a player and patterns for
 //! winning the game.
+//!
+//! The patterns themselves are 18-bits long, containing 9 pairs of bits.
+//!
+//! Each pair (x, y) represents the following:
+//! - x: The bit that states if the cell has been set
+//! - y: The bit that states which player set the cell
+//! Because of this, if x = 0, y != 1. But if x == 1, y = (0, 1).
+
+mod cell;
+mod win_pattern;
 
 /// Represents the state of a particular cell.
 #[derive(Clone, Copy)]
 pub(crate) enum Cell {
-    TopLeft = 0b100000000,
-    TopCentre = 0b010000000,
-    TopRight = 0b001000000,
-    CentreLeft = 0b000100000,
-    Centre = 0b000010000,
-    CentreRight = 0b000001000,
-    BottomLeft = 0b000000100,
-    BottomCentre = 0b000000010,
-    BottomRight = 0b000000001,
-}
-
-impl Cell {
-    pub(crate) fn try_from(x: &str) -> Option<Cell> {
-        match x {
-            "1" => Some(Cell::BottomLeft),
-            "2" => Some(Cell::BottomCentre),
-            "3" => Some(Cell::BottomRight),
-            "4" => Some(Cell::CentreLeft),
-            "5" => Some(Cell::Centre),
-            "6" => Some(Cell::CentreRight),
-            "7" => Some(Cell::TopLeft),
-            "8" => Some(Cell::TopCentre),
-            "9" => Some(Cell::TopRight),
-            _ => None,
-        }
-    }
+    TopLeft = 0b100000000000000000,
+    TopCentre = 0b001000000000000000,
+    TopRight = 0b000010000000000000,
+    CentreLeft = 0b000000100000000000,
+    Centre = 0b000000001000000000,
+    CentreRight = 0b000000000010000000,
+    BottomLeft = 0b000000000000100000,
+    BottomCentre = 0b000000000000001000,
+    BottomRight = 0b000000000000000010,
 }
 
 /// These patterns represent every possible win state.
@@ -39,12 +32,12 @@ impl Cell {
 /// Rows, Columns and Diagonals are accounted for in this.
 #[derive(Clone, Copy)]
 pub(crate) enum WinPattern {
-    TopRow = 0b111000000,
-    CentreRow = 0b000111000,
-    BottomRow = 0b000000111,
-    LeftColumn = 0b100100100,
-    CentreColumn = 0b010010010,
-    RightColumn = 0b001001001,
-    LeftDiagonal = 0b100010001,
-    RightDiagonal = 0b001010100,
+    TopRow = 0b101010000000000000,
+    CentreRow = 0b000000101010000000,
+    BottomRow = 0b000000000000101010,
+    LeftColumn = 0b100000100000100000,
+    CentreColumn = 0b001000001000001000,
+    RightColumn = 0b000010000010000010,
+    LeftDiagonal = 0b100000001000000010,
+    RightDiagonal = 0b000010001000100000,
 }

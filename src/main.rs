@@ -1,6 +1,5 @@
-use tic_tac_toe::Game;
+use tic_tac_toe::play;
 
 fn main() {
-    let mut game = Game::new();
-    game.play();
+    play();
 }
