@@ -1,7 +1,5 @@
 //! Provides functionality for the [Game] struct
 
-use rand::{thread_rng, Rng};
-
 use crate::{Board, Game, Player};
 
 /// A helper enum for handling the end game state.
@@ -12,30 +10,43 @@ pub(crate) enum EndState {
 }
 
 impl Game {
+    /// Allows the user to decide who starts the game.
+    fn select_start_player() -> Player {
+        println!("Who would like to start?");
+        println!("Press O or 1 for Player O");
+        println!("Press X or 2 for Player X");
+        loop {
+            let mut play_again_buffer = String::new();
+            std::io::stdin().read_line(&mut play_again_buffer).unwrap();
+            match play_again_buffer.trim() {
+                "O" | "o" | "1" => return Player::O,
+                "X" | "x" | "2" => return Player::X,
+                _ => {
+                    println!("Sorry, please provide a valid selection.");
+                    continue;
+                }
+            }
+        }
+    }
+}
+
+impl Game {
     /// Creates a new [Game]. At game start a player is randomly chosen.
     pub(crate) fn new() -> Game {
         Game {
             board: Board::new(),
-            current_player: if thread_rng().gen_bool(0.5) {
-                Player::X
-            } else {
-                Player::O
-            },
+            current_player: Game::select_start_player(),
         }
     }
 
     /// Resets the game.
     pub(crate) fn reset(&mut self) {
         self.board = Board::new();
-        self.current_player = if thread_rng().gen_bool(0.5) {
-            Player::X
-        } else {
-            Player::O
-        };
+        self.current_player = Game::select_start_player();
     }
 
     /// Handles the end state of the game.
-    pub(crate) fn handle_end_state(&mut self) -> EndState {
+    pub(crate) fn on_end(&mut self) -> EndState {
         if !self.board.has_player_won() && !self.board.is_every_cell_set() {
             return EndState::Continue;
         }

@@ -35,7 +35,7 @@ pub fn play() {
     loop {
         game.board.select_cell(game.current_player);
         println!("{}", game.board);
-        match game.handle_end_state() {
+        match game.on_end() {
             EndState::End => break,
             EndState::Replay => continue,
             EndState::Continue => (),
