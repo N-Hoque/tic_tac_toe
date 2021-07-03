@@ -4,7 +4,7 @@ description = "An implementation of Tic-Tac-Toe"
 authors = ["Naimul Hoque <Naimul_Hoque@outlook.com>"]
 license = "MIT"
 repository = "https://github.com/N-Hoque/tic_tac_toe"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

@@ -2,306 +2,341 @@
 
 #[cfg(test)]
 mod set_cell_tests {
-    use crate::{bit_patterns::PlayerCell, Board};
-
-    #[test]
-    fn top_left_cell_for_player_O_is_correct() {
-        let mut board = Board::new();
-        board.set_cell(PlayerCell::TopLeftO);
-        assert_eq!(0b011111111111111111, board.cells);
-    }
+    use crate::bit_patterns::Cell;
+    use crate::{Board, Player};
 
     #[test]
     fn top_left_cell_for_player_X_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopLeftX);
-        assert_eq!(0b101111111111111111, board.cells);
+        let player = Player::X;
+        board.set_cell(player, Cell::TopLeft);
+        assert!(board.active_cells == 0b100000000 && board.player_cells == 0b100000000);
     }
 
     #[test]
-    fn top_centre_cell_for_player_O_is_correct() {
+    fn top_left_cell_for_player_O_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopCentreO);
-        assert_eq!(0b110111111111111111, board.cells);
+        let player = Player::O;
+        board.set_cell(player, Cell::TopLeft);
+        assert!(board.active_cells == 0b100000000 && board.player_cells == 0);
     }
 
     #[test]
     fn top_centre_cell_for_player_X_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopCentreX);
-        assert_eq!(0b111011111111111111, board.cells);
+        let player = Player::X;
+        board.set_cell(player, Cell::TopCentre);
+        assert!(board.active_cells == 0b010000000 && board.player_cells == 0b010000000);
     }
 
     #[test]
-    fn top_right_cell_for_player_O_is_correct() {
+    fn top_centre_cell_for_player_O_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopRightO);
-        assert_eq!(0b111101111111111111, board.cells);
+        let player = Player::O;
+        board.set_cell(player, Cell::TopCentre);
+        assert!(board.active_cells == 0b010000000 && board.player_cells == 0);
     }
 
     #[test]
     fn top_right_cell_for_player_X_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopRightX);
-        assert_eq!(0b111110111111111111, board.cells);
+        let player = Player::X;
+        board.set_cell(player, Cell::TopRight);
+        assert!(board.active_cells == 0b001000000 && board.player_cells == 0b001000000);
     }
 
     #[test]
-    fn centre_left_cell_for_player_O_is_correct() {
+    fn top_right_cell_for_player_O_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::CentreLeftO);
-        assert_eq!(0b111111011111111111, board.cells);
+        let player = Player::O;
+        board.set_cell(player, Cell::TopRight);
+        assert!(board.active_cells == 0b001000000 && board.player_cells == 0);
     }
 
     #[test]
     fn centre_left_cell_for_player_X_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::CentreLeftX);
-        assert_eq!(0b111111101111111111, board.cells);
+        let player = Player::X;
+        board.set_cell(player, Cell::CentreLeft);
+        assert!(board.active_cells == 0b000100000 && board.player_cells == 0b000100000);
     }
 
     #[test]
-    fn centre_cell_for_player_O_is_correct() {
+    fn centre_left_cell_for_player_O_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::CentreO);
-        assert_eq!(0b111111110111111111, board.cells);
+        let player = Player::O;
+        board.set_cell(player, Cell::CentreLeft);
+        assert!(board.active_cells == 0b000100000 && board.player_cells == 0);
     }
 
     #[test]
     fn centre_cell_for_player_X_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::CentreX);
-        assert_eq!(0b111111111011111111, board.cells);
+        let player = Player::X;
+        board.set_cell(player, Cell::Centre);
+        assert!(board.active_cells == 0b000010000 && board.player_cells == 0b000010000);
     }
 
     #[test]
-    fn centre_right_cell_for_player_O_is_correct() {
+    fn centre_cell_for_player_O_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::CentreRightO);
-        assert_eq!(0b111111111101111111, board.cells);
+        let player = Player::O;
+        board.set_cell(player, Cell::Centre);
+        assert!(board.active_cells == 0b000010000 && board.player_cells == 0);
     }
 
     #[test]
     fn centre_right_cell_for_player_X_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::CentreRightX);
-        assert_eq!(0b111111111110111111, board.cells);
+        let player = Player::X;
+        board.set_cell(player, Cell::CentreRight);
+        assert!(board.active_cells == 0b000001000 && board.player_cells == 0b000001000);
     }
 
     #[test]
-    fn bottom_left_cell_for_player_O_is_correct() {
+    fn centre_right_cell_for_player_O_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::BottomLeftO);
-        assert_eq!(0b111111111111011111, board.cells);
+        let player = Player::O;
+        board.set_cell(player, Cell::CentreRight);
+        assert!(board.active_cells == 0b000001000 && board.player_cells == 0);
     }
 
     #[test]
     fn bottom_left_cell_for_player_X_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::BottomLeftX);
-        assert_eq!(0b111111111111101111, board.cells);
+        let player = Player::X;
+        board.set_cell(player, Cell::BottomLeft);
+        assert!(board.active_cells == 0b000000100 && board.player_cells == 0b000000100);
     }
 
     #[test]
-    fn bottom_centre_cell_for_player_O_is_correct() {
+    fn bottom_left_cell_for_player_O_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::BottomCentreO);
-        assert_eq!(0b111111111111110111, board.cells);
+        let player = Player::O;
+        board.set_cell(player, Cell::BottomLeft);
+        assert!(board.active_cells == 0b000000100 && board.player_cells == 0);
     }
 
     #[test]
     fn bottom_centre_cell_for_player_X_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::BottomCentreX);
-        assert_eq!(0b111111111111111011, board.cells);
+        let player = Player::X;
+        board.set_cell(player, Cell::BottomCentre);
+        assert!(board.active_cells == 0b000000010 && board.player_cells == 0b000000010);
     }
 
     #[test]
-    fn bottom_right_cell_for_player_O_is_correct() {
+    fn bottom_centre_cell_for_player_O_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::BottomRightO);
-        assert_eq!(0b111111111111111101, board.cells);
+        let player = Player::O;
+        board.set_cell(player, Cell::BottomCentre);
+        assert!(board.active_cells == 0b000000010 && board.player_cells == 0);
     }
 
     #[test]
     fn bottom_right_cell_for_player_X_is_correct() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::BottomRightX);
-        assert_eq!(0b111111111111111110, board.cells);
+        let player = Player::X;
+        board.set_cell(player, Cell::BottomRight);
+        assert!(board.active_cells == 0b000000001 && board.player_cells == 0b000000001);
+    }
+
+    #[test]
+    fn bottom_right_cell_for_player_O_is_correct() {
+        let mut board = Board::new();
+        let player = Player::O;
+        board.set_cell(player, Cell::BottomRight);
+        assert!(board.active_cells == 0b000000001 && board.player_cells == 0);
     }
 }
 
 #[cfg(test)]
 mod win_tests {
-    use crate::{
-        bit_patterns::{PlayerCell, WinPattern},
-        Board,
-    };
+    use crate::bit_patterns::Cell;
+    use crate::{Board, Player};
 
     #[test]
     fn player_O_won_with_top_row() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopLeftO);
-        board.set_cell(PlayerCell::TopCentreO);
-        board.set_cell(PlayerCell::TopRightO);
-        assert_eq!(0, board.cells & ((WinPattern::TopRow as u32) << 1))
+        let player = Player::O;
+        board.set_cell(player, Cell::TopLeft);
+        board.set_cell(player, Cell::TopCentre);
+        board.set_cell(player, Cell::TopRight);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_X_won_with_top_row() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopLeftX);
-        board.set_cell(PlayerCell::TopCentreX);
-        board.set_cell(PlayerCell::TopRightX);
-        assert_eq!(0, board.cells & (WinPattern::TopRow as u32))
+        let player = Player::X;
+        board.set_cell(player, Cell::TopLeft);
+        board.set_cell(player, Cell::TopCentre);
+        board.set_cell(player, Cell::TopRight);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_O_won_with_centre_row() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::CentreLeftO);
-        board.set_cell(PlayerCell::CentreO);
-        board.set_cell(PlayerCell::CentreRightO);
-        assert_eq!(0, board.cells & ((WinPattern::CentreRow as u32) << 1))
+        let player = Player::O;
+        board.set_cell(player, Cell::CentreLeft);
+        board.set_cell(player, Cell::Centre);
+        board.set_cell(player, Cell::CentreRight);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_X_won_with_centre_row() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::CentreLeftX);
-        board.set_cell(PlayerCell::CentreX);
-        board.set_cell(PlayerCell::CentreRightX);
-        assert_eq!(0, board.cells & (WinPattern::CentreRow as u32))
+        let player = Player::X;
+        board.set_cell(player, Cell::CentreLeft);
+        board.set_cell(player, Cell::Centre);
+        board.set_cell(player, Cell::CentreRight);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_O_won_with_bottom_row() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::BottomLeftO);
-        board.set_cell(PlayerCell::BottomCentreO);
-        board.set_cell(PlayerCell::BottomRightO);
-        assert_eq!(0, board.cells & ((WinPattern::BottomRow as u32) << 1))
+        let player = Player::O;
+        board.set_cell(player, Cell::BottomLeft);
+        board.set_cell(player, Cell::BottomCentre);
+        board.set_cell(player, Cell::BottomRight);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_X_won_with_bottom_row() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::BottomLeftX);
-        board.set_cell(PlayerCell::BottomCentreX);
-        board.set_cell(PlayerCell::BottomRightX);
-        assert_eq!(0, board.cells & (WinPattern::BottomRow as u32))
+        let player = Player::X;
+        board.set_cell(player, Cell::BottomLeft);
+        board.set_cell(player, Cell::BottomCentre);
+        board.set_cell(player, Cell::BottomRight);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_O_won_with_left_column() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopLeftO);
-        board.set_cell(PlayerCell::CentreLeftO);
-        board.set_cell(PlayerCell::BottomLeftO);
-        assert_eq!(0, board.cells & ((WinPattern::LeftColumn as u32) << 1))
+        let player = Player::O;
+        board.set_cell(player, Cell::TopLeft);
+        board.set_cell(player, Cell::CentreLeft);
+        board.set_cell(player, Cell::BottomLeft);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_X_won_with_left_column() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopLeftX);
-        board.set_cell(PlayerCell::CentreLeftX);
-        board.set_cell(PlayerCell::BottomLeftX);
-        assert_eq!(0, board.cells & (WinPattern::LeftColumn as u32))
+        let player = Player::X;
+        board.set_cell(player, Cell::TopLeft);
+        board.set_cell(player, Cell::CentreLeft);
+        board.set_cell(player, Cell::BottomLeft);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_O_won_with_centre_column() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopCentreO);
-        board.set_cell(PlayerCell::CentreO);
-        board.set_cell(PlayerCell::BottomCentreO);
-        assert_eq!(0, board.cells & ((WinPattern::CentreColumn as u32) << 1))
+        let player = Player::O;
+        board.set_cell(player, Cell::TopCentre);
+        board.set_cell(player, Cell::Centre);
+        board.set_cell(player, Cell::BottomCentre);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_X_won_with_centre_column() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopCentreX);
-        board.set_cell(PlayerCell::CentreX);
-        board.set_cell(PlayerCell::BottomCentreX);
-        assert_eq!(0, board.cells & (WinPattern::CentreColumn as u32))
+        let player = Player::X;
+        board.set_cell(player, Cell::TopCentre);
+        board.set_cell(player, Cell::Centre);
+        board.set_cell(player, Cell::BottomCentre);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_O_won_with_right_column() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopRightO);
-        board.set_cell(PlayerCell::CentreRightO);
-        board.set_cell(PlayerCell::BottomRightO);
-        assert_eq!(0, board.cells & ((WinPattern::RightColumn as u32) << 1))
+        let player = Player::O;
+        board.set_cell(player, Cell::TopRight);
+        board.set_cell(player, Cell::CentreRight);
+        board.set_cell(player, Cell::BottomRight);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_X_won_with_right_column() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopRightX);
-        board.set_cell(PlayerCell::CentreRightX);
-        board.set_cell(PlayerCell::BottomRightX);
-        assert_eq!(0, board.cells & (WinPattern::RightColumn as u32))
+        let player = Player::X;
+        board.set_cell(player, Cell::TopRight);
+        board.set_cell(player, Cell::CentreRight);
+        board.set_cell(player, Cell::BottomRight);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_O_won_with_left_diagonal() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopLeftO);
-        board.set_cell(PlayerCell::CentreO);
-        board.set_cell(PlayerCell::BottomRightO);
-        assert_eq!(0, board.cells & ((WinPattern::LeftDiagonal as u32) << 1))
+        let player = Player::O;
+        board.set_cell(player, Cell::TopLeft);
+        board.set_cell(player, Cell::Centre);
+        board.set_cell(player, Cell::BottomRight);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_X_won_with_left_diagonal() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopLeftX);
-        board.set_cell(PlayerCell::CentreX);
-        board.set_cell(PlayerCell::BottomRightX);
-        assert_eq!(0, board.cells & (WinPattern::LeftDiagonal as u32))
+        let player = Player::X;
+        board.set_cell(player, Cell::TopLeft);
+        board.set_cell(player, Cell::Centre);
+        board.set_cell(player, Cell::BottomRight);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_O_won_with_right_diagonal() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopRightO);
-        board.set_cell(PlayerCell::CentreO);
-        board.set_cell(PlayerCell::BottomLeftO);
-        assert_eq!(0, board.cells & ((WinPattern::RightDiagonal as u32) << 1))
+        let player = Player::O;
+        board.set_cell(player, Cell::TopRight);
+        board.set_cell(player, Cell::Centre);
+        board.set_cell(player, Cell::BottomLeft);
+        assert!(board.has_player_won())
     }
 
     #[test]
     fn player_X_won_with_right_diagonal() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::TopRightX);
-        board.set_cell(PlayerCell::CentreX);
-        board.set_cell(PlayerCell::BottomLeftX);
-        assert_eq!(0, board.cells & (WinPattern::RightDiagonal as u32))
+        let player = Player::X;
+        board.set_cell(player, Cell::TopRight);
+        board.set_cell(player, Cell::Centre);
+        board.set_cell(player, Cell::BottomLeft);
+        assert!(board.has_player_won())
     }
 }
 
 #[cfg(test)]
 mod board_tests {
-    use crate::{bit_patterns::PlayerCell, Board, Player};
+    use crate::bit_patterns::Cell;
+    use crate::{Board, Player};
 
     #[test]
     fn new_board_has_empty_cells() {
         let board = Board::new();
-        assert_eq!(0b111111111111111111, board.cells);
+        assert!(board.player_cells == 0 && board.active_cells == 0);
     }
 
     #[test]
     fn board_correctly_states_winner() {
         let mut board = Board::new();
         let winner = Player::O;
-        board.set_cell(PlayerCell::TopLeftO);
-        board.set_cell(PlayerCell::BottomCentreO);
-        board.set_cell(PlayerCell::TopRightO);
-        board.set_cell(PlayerCell::BottomRightO);
-        board.set_cell(PlayerCell::TopCentreO);
+        let loser = Player::X;
+        board.set_cell(winner, Cell::TopLeft);
+        board.set_cell(loser, Cell::BottomCentre);
+        board.set_cell(winner, Cell::TopRight);
+        board.set_cell(loser, Cell::BottomRight);
+        board.set_cell(winner, Cell::TopCentre);
         let mut winner_message = String::new();
         if board.has_player_won() {
             if winner == Player::O {
@@ -314,11 +349,68 @@ mod board_tests {
     }
 
     #[test]
+    fn board_correctly_states_winner_2() {
+        let mut board = Board::new();
+        let winner = Player::X;
+        let loser = Player::O;
+        board.set_cell(winner, Cell::TopLeft);
+        board.set_cell(loser, Cell::BottomCentre);
+        board.set_cell(winner, Cell::Centre);
+        board.set_cell(loser, Cell::BottomLeft);
+        board.set_cell(winner, Cell::BottomRight);
+        let mut winner_message = String::new();
+        if board.has_player_won() {
+            if winner == Player::O {
+                winner_message = String::from("Player O Has Won!");
+            } else {
+                winner_message = String::from("Player X Has Won!");
+            }
+        }
+        assert_eq!("Player X Has Won!", &winner_message);
+    }
+
+    #[test]
     fn board_displays_cells_correctly() {
         let mut board = Board::new();
-        board.set_cell(PlayerCell::CentreX);
-        board.set_cell(PlayerCell::TopLeftO);
-        board.set_cell(PlayerCell::BottomRightX);
+        let p1 = Player::X;
+        let p2 = Player::O;
+        board.set_cell(p1, Cell::Centre);
+        board.set_cell(p2, Cell::TopLeft);
+        board.set_cell(p1, Cell::BottomRight);
         assert_eq!("OEE\nEXE\nEEX\n", &board.to_string());
+    }
+
+    #[test]
+    fn board_displays_cells_correctly_2() {
+        let mut board = Board::new();
+        let p1 = Player::X;
+        let p2 = Player::O;
+        board.set_cell(p1, Cell::Centre);
+        board.set_cell(p2, Cell::TopLeft);
+        board.set_cell(p1, Cell::BottomRight);
+        board.set_cell(p2, Cell::TopRight);
+        board.set_cell(p1, Cell::BottomLeft);
+        board.set_cell(p2, Cell::TopCentre);
+        board.set_cell(p1, Cell::BottomCentre);
+        board.set_cell(p2, Cell::CentreLeft);
+        board.set_cell(p1, Cell::CentreRight);
+        assert_eq!("OOO\nOXX\nXXX\n", &board.to_string());
+    }
+
+    #[test]
+    fn board_displays_cells_correctly_3() {
+        let mut board = Board::new();
+        let p1 = Player::O;
+        let p2 = Player::X;
+        board.set_cell(p1, Cell::TopLeft);
+        board.set_cell(p2, Cell::TopCentre);
+        board.set_cell(p1, Cell::TopRight);
+        board.set_cell(p2, Cell::CentreLeft);
+        board.set_cell(p1, Cell::Centre);
+        board.set_cell(p2, Cell::CentreRight);
+        board.set_cell(p1, Cell::BottomLeft);
+        board.set_cell(p2, Cell::BottomCentre);
+        board.set_cell(p1, Cell::BottomRight);
+        assert_eq!("OXO\nXOX\nOXO\n", &board.to_string());
     }
 }
