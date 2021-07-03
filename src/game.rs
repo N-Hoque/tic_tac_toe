@@ -1,13 +1,6 @@
 //! Provides functionality for the [Game] struct
 
-use crate::{Board, Game, Player};
-
-/// A helper enum for handling the end game state.
-pub(crate) enum EndState {
-    Replay,
-    End,
-    Continue,
-}
+use crate::{Board, EndState, Game, Player};
 
 impl Game {
     /// Allows the user to decide who starts the game.

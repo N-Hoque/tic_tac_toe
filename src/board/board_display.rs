@@ -28,9 +28,9 @@ impl std::fmt::Display for Board {
                     .filter_map(|i| Cell::try_from(i.as_str()))
                     .enumerate()
                 {
-                    if self.check_player_has_set_cell(Player::X, c) {
+                    if self.has_player_set_cell(Player::X, c) {
                         cell_triple[2 - (i % 3)] = 'X';
-                    } else if self.check_player_has_set_cell(Player::O, c) {
+                    } else if self.has_player_set_cell(Player::O, c) {
                         cell_triple[2 - (i % 3)] = 'O';
                     };
                 }

@@ -6,11 +6,7 @@ mod set_cell_tests {
     use crate::{Board, Player};
 
     fn get_test_cell(player: Player, cell_idx: usize) -> u32 {
-        if player == Player::O {
-            0b10 << (cell_idx * 2)
-        } else {
-            0b11 << (cell_idx * 2)
-        }
+        return if let Player::O = player { 0b10 } else { 0b11 } << (cell_idx * 2);
     }
 
     fn cell_test(player: Player, cell: Cell, idx: usize) {
@@ -22,7 +18,7 @@ mod set_cell_tests {
             "Got {:0b} expected {:0b}",
             board.cells, expected
         );
-        assert!(board.check_player_has_set_cell(player, cell));
+        assert!(board.has_player_set_cell(player, cell));
     }
 
     #[test]
@@ -119,11 +115,11 @@ mod set_cell_tests {
     fn top_row_mixed_cells_are_set_correctly() {
         let mut board = Board::new();
         board.set_cell(Player::O, Cell::TopLeft);
-        assert!(board.check_player_has_set_cell(Player::O, Cell::TopLeft));
+        assert!(board.has_player_set_cell(Player::O, Cell::TopLeft));
         board.set_cell(Player::X, Cell::TopCentre);
-        assert!(board.check_player_has_set_cell(Player::X, Cell::TopCentre));
+        assert!(board.has_player_set_cell(Player::X, Cell::TopCentre));
         board.set_cell(Player::O, Cell::TopRight);
-        assert!(board.check_player_has_set_cell(Player::O, Cell::TopRight));
+        assert!(board.has_player_set_cell(Player::O, Cell::TopRight));
         assert_eq!(0b101110000000000000, board.cells);
     }
 
@@ -168,28 +164,28 @@ mod set_cell_tests {
     fn check_cell_correctly_says_O_set_cell() {
         let mut board = Board::new();
         board.set_cell(Player::O, Cell::TopLeft);
-        assert!(board.check_player_has_set_cell(Player::O, Cell::TopLeft))
+        assert!(board.has_player_set_cell(Player::O, Cell::TopLeft))
     }
 
     #[test]
     fn check_cell_correctly_says_X_did_not_set_cell() {
         let mut board = Board::new();
         board.set_cell(Player::O, Cell::TopLeft);
-        assert!(!board.check_player_has_set_cell(Player::X, Cell::TopLeft))
+        assert!(!board.has_player_set_cell(Player::X, Cell::TopLeft))
     }
 
     #[test]
     fn check_cell_correctly_says_X_set_cell() {
         let mut board = Board::new();
         board.set_cell(Player::X, Cell::TopLeft);
-        assert!(board.check_player_has_set_cell(Player::X, Cell::TopLeft))
+        assert!(board.has_player_set_cell(Player::X, Cell::TopLeft))
     }
 
     #[test]
     fn check_cell_correctly_says_O_did_not_set_cell() {
         let mut board = Board::new();
         board.set_cell(Player::X, Cell::TopLeft);
-        assert!(!board.check_player_has_set_cell(Player::O, Cell::TopLeft))
+        assert!(!board.has_player_set_cell(Player::O, Cell::TopLeft))
     }
 }
 
@@ -200,6 +196,13 @@ mod win_tests {
 
     type Cells = [Cell; 3];
 
+    fn switch_player(player: Player) -> Player {
+        match player {
+            Player::O => Player::X,
+            Player::X => Player::O,
+        }
+    }
+
     fn win_test(player: Player, win_pattern: WinPattern) {
         let mut board = Board::new();
         let cells: Cells = win_pattern.into();
@@ -208,7 +211,7 @@ mod win_tests {
         board.set_cell(player, cells[2]);
         assert_eq!(
             true,
-            board.apply_win_pattern_for_player(player, win_pattern),
+            board.check_player_has_won(player, win_pattern),
             "For these cells {:>018b} and win pattern {:>018b}, the player should win",
             board.cells,
             win_pattern
@@ -218,17 +221,13 @@ mod win_tests {
     fn lose_test(player: Player, win_pattern: WinPattern) {
         let mut board = Board::new();
         let cells: Cells = win_pattern.into();
-        let other_player = if player == Player::O {
-            Player::X
-        } else {
-            Player::O
-        };
+        let other_player = switch_player(player);
         board.set_cell(other_player, cells[0]);
         board.set_cell(other_player, cells[1]);
         board.set_cell(other_player, cells[2]);
         assert_eq!(
             false,
-            board.apply_win_pattern_for_player(player, win_pattern),
+            board.check_player_has_won(player, win_pattern),
             "For these cells {:>018b} and win pattern {:>018b}, the player should lose",
             board.cells,
             win_pattern
@@ -407,12 +406,12 @@ mod win_tests {
         board.set_cell(player, cells[2]);
         assert_eq!(
             false,
-            board.apply_win_pattern_for_player(Player::O, WinPattern::TopRow),
+            board.check_player_has_won(Player::O, WinPattern::TopRow),
             "Unfortunately Player O still won.",
         );
         assert_eq!(
             false,
-            board.apply_win_pattern_for_player(Player::X, WinPattern::TopRow),
+            board.check_player_has_won(Player::X, WinPattern::TopRow),
             "Unfortunately Player X still won.",
         );
         assert!(!board.has_player_won());
@@ -433,12 +432,12 @@ mod win_tests {
         println!("{}", board);
         assert_eq!(
             false,
-            board.apply_win_pattern_for_player(Player::O, WinPattern::TopRow),
+            board.check_player_has_won(Player::O, WinPattern::TopRow),
             "Unfortunately Player O still won.",
         );
         assert_eq!(
             false,
-            board.apply_win_pattern_for_player(Player::X, WinPattern::TopRow),
+            board.check_player_has_won(Player::X, WinPattern::TopRow),
             "Unfortunately Player X still won.",
         );
         assert!(!board.has_player_won());
@@ -456,11 +455,7 @@ mod win_tests {
         board.set_cell(winner, Cell::TopCentre);
         let mut winner_message = String::new();
         if board.has_player_won() {
-            if winner == Player::O {
-                winner_message = String::from("Player O Has Won!");
-            } else {
-                winner_message = String::from("Player X Has Won!");
-            }
+            winner_message = format!("{} Has Won!", winner);
         }
         assert_eq!("Player O Has Won!", &winner_message);
     }
@@ -477,11 +472,7 @@ mod win_tests {
         board.set_cell(winner, Cell::BottomRight);
         let mut winner_message = String::new();
         if board.has_player_won() {
-            if winner == Player::O {
-                winner_message = String::from("Player O Has Won!");
-            } else {
-                winner_message = String::from("Player X Has Won!");
-            }
+            winner_message = format!("{} Has Won!", winner);
         }
         assert_eq!("Player X Has Won!", &winner_message);
     }

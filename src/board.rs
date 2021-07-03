@@ -8,9 +8,9 @@ mod board_display;
 // Private block
 impl Board {
     #[allow(non_snake_case)]
-    fn check_player_has_set_cell(&self, player: Player, cell: Cell) -> bool {
+    fn has_player_set_cell(&self, player: Player, cell: Cell) -> bool {
         self.cells & cell != 0
-            && if player == Player::O {
+            && if let Player::O = player {
                 self.cells & cell >> 1 == 0
             } else {
                 self.cells & cell >> 1 != 0
@@ -25,13 +25,13 @@ impl Board {
     /// Sets the cell for a given player.
     fn set_cell(&mut self, player: Player, cell: Cell) {
         self.cells |= cell;
-        if player == Player::X {
+        if let Player::X = player {
             self.cells |= cell >> 1
         }
     }
 
     /// Handles player input for cell selection.
-    fn handle_cell_input(&mut self) -> Cell {
+    fn on_user_input(&mut self) -> Cell {
         loop {
             println!("Enter a value between 1-9");
             let mut player_input_stream = String::new();
@@ -64,7 +64,7 @@ impl Board {
             return;
         }
         println!("{}: Select a Cell", player);
-        let cell = self.handle_cell_input();
+        let cell = self.on_user_input();
 
         self.set_cell(player, cell);
     }
@@ -73,17 +73,10 @@ impl Board {
     ///
     /// This is achieved by converting the [WinPattern] to a triple of Cells,
     /// iterating over each and checking if the player set all of those cells
-    pub(crate) fn apply_win_pattern_for_player(
-        &self,
-        player: Player,
-        win_pattern: WinPattern,
-    ) -> bool {
+    pub(crate) fn check_player_has_won(&self, player: Player, win_pattern: WinPattern) -> bool {
         let cells: [Cell; 3] = win_pattern.into();
 
-        cells
-            .iter()
-            .map(|c| *c)
-            .all(|c| self.check_player_has_set_cell(player, c))
+        cells.iter().all(|c| self.has_player_set_cell(player, *c))
     }
 
     /// Checks if the active player has won the game.
@@ -100,8 +93,7 @@ impl Board {
         ]
         .iter()
         .any(|p| {
-            self.apply_win_pattern_for_player(Player::O, *p)
-                || self.apply_win_pattern_for_player(Player::X, *p)
+            self.check_player_has_won(Player::O, *p) || self.check_player_has_won(Player::X, *p)
         })
     }
 }

@@ -6,10 +6,8 @@ mod board;
 pub mod game;
 mod player;
 
-use crate::game::EndState;
-
 /// Indicates who the active player is.
-#[derive(PartialEq, Eq, Clone, Copy)]
+#[derive(Clone, Copy)]
 enum Player {
     O,
     X,
@@ -24,6 +22,13 @@ struct Board {
 struct Game {
     board: Board,
     current_player: Player,
+}
+
+/// A helper enum for handling the end game state.
+pub(crate) enum EndState {
+    Replay,
+    End,
+    Continue,
 }
 
 /// Runs the game loop
