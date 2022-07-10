@@ -6,7 +6,7 @@ mod set_cell_tests {
     use crate::{Board, Player};
 
     fn get_test_cell(player: Player, cell_idx: usize) -> u32 {
-        return if let Player::O = player { 0b10 } else { 0b11 } << (cell_idx * 2);
+        (if let Player::O = player { 0b10 } else { 0b11 }) << (cell_idx * 2)
     }
 
     fn cell_test(player: Player, cell: Cell, idx: usize) {
@@ -209,8 +209,7 @@ mod win_tests {
         board.set_cell(player, cells[0]);
         board.set_cell(player, cells[1]);
         board.set_cell(player, cells[2]);
-        assert_eq!(
-            true,
+        assert!(
             board.check_player_has_won(player, win_pattern),
             "For these cells {:>018b} and win pattern {:>018b}, the player should win",
             board.cells,
@@ -225,9 +224,8 @@ mod win_tests {
         board.set_cell(other_player, cells[0]);
         board.set_cell(other_player, cells[1]);
         board.set_cell(other_player, cells[2]);
-        assert_eq!(
-            false,
-            board.check_player_has_won(player, win_pattern),
+        assert!(
+            !board.check_player_has_won(player, win_pattern),
             "For these cells {:>018b} and win pattern {:>018b}, the player should lose",
             board.cells,
             win_pattern
@@ -404,14 +402,12 @@ mod win_tests {
         board.set_cell(player, cells[1]);
         player.swap();
         board.set_cell(player, cells[2]);
-        assert_eq!(
-            false,
-            board.check_player_has_won(Player::O, WinPattern::TopRow),
+        assert!(
+            !board.check_player_has_won(Player::O, WinPattern::TopRow),
             "Unfortunately Player O still won.",
         );
-        assert_eq!(
-            false,
-            board.check_player_has_won(Player::X, WinPattern::TopRow),
+        assert!(
+            !board.check_player_has_won(Player::X, WinPattern::TopRow),
             "Unfortunately Player X still won.",
         );
         assert!(!board.has_player_won());
@@ -430,14 +426,12 @@ mod win_tests {
         board.set_cell(Player::X, Cell::TopRight);
         board.set_cell(Player::O, Cell::BottomRight);
         println!("{}", board);
-        assert_eq!(
-            false,
-            board.check_player_has_won(Player::O, WinPattern::TopRow),
+        assert!(
+            !board.check_player_has_won(Player::O, WinPattern::TopRow),
             "Unfortunately Player O still won.",
         );
-        assert_eq!(
-            false,
-            board.check_player_has_won(Player::X, WinPattern::TopRow),
+        assert!(
+            !board.check_player_has_won(Player::X, WinPattern::TopRow),
             "Unfortunately Player X still won.",
         );
         assert!(!board.has_player_won());
