@@ -39,7 +39,7 @@ impl Board {
             let mut player_input_stream = String::new();
             std::io::stdin()
                 .read_line(&mut player_input_stream)
-                .unwrap();
+                .expect("read user input");
             match Cell::try_from(player_input_stream.trim()) {
                 Ok(c) if !self.is_cell_set(c) => return c,
                 Ok(_) => println!("Sorry, this cell has already been set!"),

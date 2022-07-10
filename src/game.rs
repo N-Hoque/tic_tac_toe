@@ -10,14 +10,13 @@ impl Game {
         println!("Press X or 2 for Player X");
         loop {
             let mut play_again_buffer = String::new();
-            std::io::stdin().read_line(&mut play_again_buffer).unwrap();
+            std::io::stdin()
+                .read_line(&mut play_again_buffer)
+                .expect("select starting player");
             match play_again_buffer.trim() {
                 "O" | "o" | "1" => return Player::O,
                 "X" | "x" | "2" => return Player::X,
-                _ => {
-                    println!("Sorry, please provide a valid selection.");
-                    continue;
-                }
+                _ => println!("Sorry, please provide a valid selection."),
             }
         }
     }
@@ -54,7 +53,9 @@ impl Game {
 
         loop {
             let mut play_again_buffer = String::new();
-            std::io::stdin().read_line(&mut play_again_buffer).unwrap();
+            std::io::stdin()
+                .read_line(&mut play_again_buffer)
+                .expect("user input for end of game");
             match play_again_buffer.trim() {
                 "n" | "N" => return EndState::End,
                 "y" | "Y" => {

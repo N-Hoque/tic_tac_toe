@@ -4,4 +4,4 @@ version = 3
 
 [[package]]
 name = "tic_tac_toe_bit_patterns"
-version = "1.0.0"
+version = "1.1.0"
