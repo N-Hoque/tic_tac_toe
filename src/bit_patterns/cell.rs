@@ -1,23 +1,28 @@
 //! Helper module for [Cell]
 
-use std::ops::{BitAnd, BitOrAssign, Shr};
+use std::{
+    convert::TryFrom,
+    ops::{BitAnd, BitOrAssign, Shr},
+};
 
 use super::Cell;
 
-impl Cell {
+impl TryFrom<&str> for Cell {
+    type Error = String;
+
     /// Attempts to convert the input to a [Cell]. Returns [None] if the input is not a valid digit.
-    pub(crate) fn try_from(x: &str) -> Option<Cell> {
-        match x.into() {
-            "1" => Some(Cell::BottomLeft),
-            "2" => Some(Cell::BottomCentre),
-            "3" => Some(Cell::BottomRight),
-            "4" => Some(Cell::CentreLeft),
-            "5" => Some(Cell::Centre),
-            "6" => Some(Cell::CentreRight),
-            "7" => Some(Cell::TopLeft),
-            "8" => Some(Cell::TopCentre),
-            "9" => Some(Cell::TopRight),
-            _ => None,
+    fn try_from(x: &str) -> Result<Self, Self::Error> {
+        match x {
+            "1" => Ok(Cell::BottomLeft),
+            "2" => Ok(Cell::BottomCentre),
+            "3" => Ok(Cell::BottomRight),
+            "4" => Ok(Cell::CentreLeft),
+            "5" => Ok(Cell::Centre),
+            "6" => Ok(Cell::CentreRight),
+            "7" => Ok(Cell::TopLeft),
+            "8" => Ok(Cell::TopCentre),
+            "9" => Ok(Cell::TopRight),
+            _ => Err(format!("{} is not a valid cell number", x)),
         }
     }
 }

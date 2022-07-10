@@ -1,5 +1,7 @@
 //! Provides functionality for the [Board] struct
 
+use std::convert::TryFrom;
+
 use crate::bit_patterns::{Cell, WinPattern};
 use crate::{Board, Player};
 
@@ -39,9 +41,9 @@ impl Board {
                 .read_line(&mut player_input_stream)
                 .unwrap();
             match Cell::try_from(player_input_stream.trim()) {
-                Some(c) if !self.is_cell_set(c) => return c,
-                Some(_) => println!("Sorry, this cell has already been set!"),
-                None => println!("Sorry, please enter a valid number."),
+                Ok(c) if !self.is_cell_set(c) => return c,
+                Ok(_) => println!("Sorry, this cell has already been set!"),
+                Err(e) => println!("Sorry, {}.", e),
             }
         }
     }

@@ -1,5 +1,7 @@
 //! Handles how the board is displayed to the players.
 
+use std::convert::TryFrom;
+
 use crate::bit_patterns::Cell;
 use crate::{Board, Player};
 
@@ -25,7 +27,7 @@ impl std::fmt::Display for Board {
                 let mut cell_triple: [char; 3] = ['E'; 3];
                 for (i, c) in ((3 * (j / 2))..3 * (j / 2 + 1))
                     .map(|i| (i + 1).to_string())
-                    .filter_map(|i| Cell::try_from(i.as_str()))
+                    .filter_map(|i| Cell::try_from(i.as_str()).ok())
                     .enumerate()
                 {
                     if self.has_player_set_cell(Player::X, c) {
