@@ -24,17 +24,17 @@ impl Game {
 
 impl Game {
     /// Creates a new [Game]. At game start a player is randomly chosen.
-    pub(crate) fn new() -> Game {
-        Game {
+    pub(crate) fn new() -> Self {
+        Self {
             board: Board::new(),
-            current_player: Game::select_start_player(),
+            current_player: Self::select_start_player(),
         }
     }
 
     /// Resets the game.
     pub(crate) fn reset(&mut self) {
         self.board = Board::new();
-        self.current_player = Game::select_start_player();
+        self.current_player = Self::select_start_player();
     }
 
     /// Handles the end state of the game.

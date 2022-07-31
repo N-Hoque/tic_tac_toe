@@ -1,6 +1,7 @@
 //! Welcome to Tic-Tac-Toe!
 //!
 //! This crate implements the schoolyard game using only bit patterns.
+
 mod bit_patterns;
 mod board;
 pub mod game;

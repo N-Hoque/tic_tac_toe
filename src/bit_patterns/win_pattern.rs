@@ -1,4 +1,4 @@
-//! Helper module for [WinPattern]
+//! Helper module for [`WinPattern`]
 
 use std::fmt::{Binary, Display};
 use std::ops::{BitAnd, BitOr, BitXor, Shr};
@@ -6,14 +6,13 @@ use std::ops::{BitAnd, BitOr, BitXor, Shr};
 use super::{Cell, WinPattern};
 
 impl From<WinPattern> for u32 {
-    /// Converts a [WinPattern] into a [u32]
     fn from(x: WinPattern) -> Self {
-        x as u32
+        x as Self
     }
 }
 
 impl From<WinPattern> for [Cell; 3] {
-    /// Converts a [WinPattern] into a triple of [Cell]s `[Cell; 3]`
+    /// Converts a [`WinPattern`] into a triple of [Cell]s `[Cell; 3]`
     fn from(val: WinPattern) -> Self {
         match val {
             WinPattern::TopRow => [Cell::TopLeft, Cell::TopCentre, Cell::TopRight],
@@ -49,10 +48,10 @@ impl Shr<u32> for WinPattern {
 }
 
 impl BitOr<WinPattern> for u32 {
-    type Output = u32;
+    type Output = Self;
 
     fn bitor(self, rhs: WinPattern) -> Self::Output {
-        self | rhs as u32
+        self | rhs as Self
     }
 }
 
@@ -65,10 +64,10 @@ impl BitOr<u32> for WinPattern {
 }
 
 impl BitXor<WinPattern> for u32 {
-    type Output = u32;
+    type Output = Self;
 
     fn bitxor(self, rhs: WinPattern) -> Self::Output {
-        self ^ rhs as u32
+        self ^ rhs as Self
     }
 }
 
@@ -81,10 +80,10 @@ impl BitXor<u32> for WinPattern {
 }
 
 impl BitAnd<WinPattern> for u32 {
-    type Output = u32;
+    type Output = Self;
 
     fn bitand(self, rhs: WinPattern) -> Self::Output {
-        self & rhs as u32
+        self & rhs as Self
     }
 }
 

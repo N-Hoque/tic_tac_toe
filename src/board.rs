@@ -28,7 +28,7 @@ impl Board {
     fn set_cell(&mut self, player: Player, cell: Cell) {
         self.cells |= cell;
         if let Player::X = player {
-            self.cells |= cell >> 1
+            self.cells |= cell >> 1;
         }
     }
 
@@ -51,13 +51,13 @@ impl Board {
 
 // Public-Crate block
 impl Board {
-    pub(crate) fn new() -> Board {
-        Board { cells: 0 }
+    pub(crate) const fn new() -> Self {
+        Self { cells: 0 }
     }
 
     /// Checks if every cell has been set.
-    pub(crate) fn is_every_cell_set(&self) -> bool {
-        !self.cells & 0b101010101010101010 == 0
+    pub(crate) const fn is_every_cell_set(&self) -> bool {
+        !self.cells & 0b10_1010_1010_1010_1010 == 0
     }
 
     /// Lets the active player to select a cell.
@@ -71,9 +71,9 @@ impl Board {
         self.set_cell(player, cell);
     }
 
-    /// Applies a [WinPattern] over the cells for a given player.
+    /// Applies a [`WinPattern`] over the cells for a given player.
     ///
-    /// This is achieved by converting the [WinPattern] to a triple of Cells,
+    /// This is achieved by converting the [`WinPattern`] to a triple of Cells,
     /// iterating over each and checking if the player set all of those cells
     pub(crate) fn check_player_has_won(&self, player: Player, win_pattern: WinPattern) -> bool {
         let cells: [Cell; 3] = win_pattern.into();

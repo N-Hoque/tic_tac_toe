@@ -5,7 +5,7 @@ use std::convert::TryFrom;
 use crate::bit_patterns::Cell;
 use crate::{Board, Player};
 
-fn draw_top_line() -> &'static str {
+const fn draw_top_line() -> &'static str {
     "-------------\n"
 }
 

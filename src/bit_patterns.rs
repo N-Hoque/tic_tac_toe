@@ -15,29 +15,29 @@ mod win_pattern;
 
 /// Represents the state of a particular cell.
 #[derive(Clone, Copy)]
-pub(crate) enum Cell {
-    TopLeft = 0b100000000000000000,
-    TopCentre = 0b001000000000000000,
-    TopRight = 0b000010000000000000,
-    CentreLeft = 0b000000100000000000,
-    Centre = 0b000000001000000000,
-    CentreRight = 0b000000000010000000,
-    BottomLeft = 0b000000000000100000,
-    BottomCentre = 0b000000000000001000,
-    BottomRight = 0b000000000000000010,
+pub enum Cell {
+    TopLeft = 0b10_0000_0000_0000_0000,
+    TopCentre = 0b00_1000_0000_0000_0000,
+    TopRight = 0b00_0010_0000_0000_0000,
+    CentreLeft = 0b00_0000_1000_0000_0000,
+    Centre = 0b00_0000_0010_0000_0000,
+    CentreRight = 0b00_0000_0000_1000_0000,
+    BottomLeft = 0b00_0000_0000_0010_0000,
+    BottomCentre = 0b00_0000_0000_0000_1000,
+    BottomRight = 0b00_0000_0000_0000_0010,
 }
 
 /// These patterns represent every possible win state.
 ///
 /// Rows, Columns and Diagonals are accounted for in this.
 #[derive(Clone, Copy)]
-pub(crate) enum WinPattern {
-    TopRow = 0b101010000000000000,
-    CentreRow = 0b000000101010000000,
-    BottomRow = 0b000000000000101010,
-    LeftColumn = 0b100000100000100000,
-    CentreColumn = 0b001000001000001000,
-    RightColumn = 0b000010000010000010,
-    LeftDiagonal = 0b100000001000000010,
-    RightDiagonal = 0b000010001000100000,
+pub enum WinPattern {
+    TopRow = 0b10_1010_0000_0000_0000,
+    CentreRow = 0b00_0000_1010_1000_0000,
+    BottomRow = 0b00_0000_0000_0010_1010,
+    LeftColumn = 0b10_0000_1000_0010_0000,
+    CentreColumn = 0b00_1000_0010_0000_1000,
+    RightColumn = 0b00_0010_0000_1000_0010,
+    LeftDiagonal = 0b10_0000_0010_0000_0010,
+    RightDiagonal = 0b00_0010_0010_0010_0000,
 }

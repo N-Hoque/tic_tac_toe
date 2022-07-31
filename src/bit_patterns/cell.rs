@@ -13,15 +13,15 @@ impl TryFrom<&str> for Cell {
     /// Attempts to convert the input to a [Cell]. Returns [None] if the input is not a valid digit.
     fn try_from(x: &str) -> Result<Self, Self::Error> {
         match x {
-            "1" => Ok(Cell::BottomLeft),
-            "2" => Ok(Cell::BottomCentre),
-            "3" => Ok(Cell::BottomRight),
-            "4" => Ok(Cell::CentreLeft),
-            "5" => Ok(Cell::Centre),
-            "6" => Ok(Cell::CentreRight),
-            "7" => Ok(Cell::TopLeft),
-            "8" => Ok(Cell::TopCentre),
-            "9" => Ok(Cell::TopRight),
+            "1" => Ok(Self::BottomLeft),
+            "2" => Ok(Self::BottomCentre),
+            "3" => Ok(Self::BottomRight),
+            "4" => Ok(Self::CentreLeft),
+            "5" => Ok(Self::Centre),
+            "6" => Ok(Self::CentreRight),
+            "7" => Ok(Self::TopLeft),
+            "8" => Ok(Self::TopCentre),
+            "9" => Ok(Self::TopRight),
             _ => Err(format!("{} is not a valid cell number", x)),
         }
     }
@@ -29,7 +29,7 @@ impl TryFrom<&str> for Cell {
 
 impl BitOrAssign<Cell> for u32 {
     fn bitor_assign(&mut self, rhs: Cell) {
-        *self |= rhs as u32
+        *self |= rhs as Self;
     }
 }
 
@@ -42,9 +42,9 @@ impl Shr<u32> for Cell {
 }
 
 impl BitAnd<Cell> for u32 {
-    type Output = u32;
+    type Output = Self;
 
     fn bitand(self, rhs: Cell) -> Self::Output {
-        self & rhs as u32
+        self & rhs as Self
     }
 }
